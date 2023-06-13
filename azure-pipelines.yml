@@ -1,4 +1,36 @@
 - task: PythonScript@0
   inputs:
-    scriptSource: 'filePath'
-    scriptPath: 'main.py'
+    scriptSource: 'inline'
+    script: |
+      from selenium import webdriver
+      import time
+      from selenium.webdriver.support.ui import Select
+      from selenium.webdriver.support import wait
+      driver = webdriver.Chrome()
+      driver.maximize_window()
+      driver.get('https://www.vodafone.co.uk/broadband')
+      driver.implicitly_wait(30)
+      from selenium.webdriver.common.by import By
+      a = driver.find_element(By.XPATH, '//*[@id="onetrust-accept-btn-handler"]').click()
+      #Selenium always automatically quits after a code is finished running. You can add a time.sleep() to keep it open.
+      time.sleep(2)
+      b = driver.find_element(By.XPATH,'//*[@id="postcode"]')
+      b.send_keys('MK170DB')
+      time.sleep(2)
+      c = driver.find_element(By.XPATH,'//*[@id="post-code-form"]/div/div/div[2]/button').click()
+      time.sleep(2)
+      select = Select(driver.find_element(By.XPATH,'//*[@id="select"]'))
+      time.sleep(2)
+      select.select_by_value('1')
+      d = driver.find_element(By.XPATH,'//*[@id="address-line-form"]/div[4]/div/div/div/div/div[2]/div/div[2]/div/div/label').click()
+      time.sleep(5)
+      driver.find_element(By.XPATH,'//*[@id="address-line-form"]/div[5]/div/div/button').click()
+      time.sleep(20)
+      e = driver.find_element(By.XPATH,'//*[@id="40"]').click()
+      time.sleep(2)
+      driver.find_element(By.XPATH,'//*[@id="Plans"]/div/div[2]/div/div/div/div/div/div/div[3]/div[2]/div[1]/div/div/div/section/div/div[2]/div/div[2]/div[1]/div/button').click()
+      time.sleep(10)
+      driver.find_element(By.XPATH,'//*[@id="Add-ons"]/div/div[2]/div/div/div/div/div/div/div[2]/div[1]/div/div/div[2]/div[2]/button').click()
+      time.sleep(5)
+      driver.find_element(By.XPATH,'//*[@id="Add-ons"]/div/div[2]/div/div/div/div/div/div/div[3]/div/div/button').click()
+      time.sleep(5)
